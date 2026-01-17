@@ -16,11 +16,11 @@ export default function Home(){
     setProducts(response.data);
   }
     return(
-      <>
-      <PageHeading>
+      <div className="max-w-[1152px] mx-auto px-6 py-8">
+      <PageHeading title="Explore Eazy Stickers">
         Hey!! Welcome back
       </PageHeading>
       <ProductListing products={products}></ProductListing>
-     </>
+     </div>
     );
 }

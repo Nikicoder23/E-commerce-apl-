@@ -48,7 +48,7 @@ export default function ProductListings({ products }) {
           label="Search"
           placeholder="Search products..."
           value={searchText}
-          handleSearch={(value) => handleSearchChange(value)}
+          handlesSearch={(value) => handleSearchChange(value)}
         />
         <Dropdown
           label="Sort by"

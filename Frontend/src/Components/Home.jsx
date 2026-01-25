@@ -1,26 +1,30 @@
 import PageHeading from "./PageHeading";
 import ProductListing from "./ProductListing";
 import apiClient from "../api/apiClient";
-
+import { useLoaderData } from "react-router-dom";
 import { useState,useEffect } from "react";
 
 export default function Home(){
-  const [products,setProducts]=useState([]);
-
-  useEffect(()=>{
-    fetchProduct();
-  },[]);
-
-  const fetchProduct= async()=>{
-    const response =await apiClient.get("/products"); 
-    setProducts(response.data);
-  }
-    return(
-      <div className="max-w-[1152px] mx-auto px-6 py-8">
-      <PageHeading title="Explore Eazy Stickers">
-        Hey!! Welcome back
+   const products = useLoaderData();
+  return (
+    <div className="max-w-[1152px] mx-auto px-6 py-8">
+      <PageHeading title="Explore Eazy Stickers!">
+        Add a touch of creativity to your space with our wide range of fun and
+        unique stickers. Perfect for any occasion!
       </PageHeading>
-      <ProductListing products={products}></ProductListing>
-     </div>
+      <ProductListing products={products} />
+    </div>
+  );
+}
+
+export async function productsLoader() {
+  try {
+    const response = await apiClient.get("/products"); // Axios GET Request
+    return response.data;
+  } catch (error) {
+    throw new Response(
+      error.message || "Failed to fetch products. Please try again.",
+      { status: error.status || 500 }
     );
+  }
 }

@@ -66,6 +66,9 @@ export default function Contact() {
             minLength={5}
             maxLength={30}
           />
+          {actionData?.errors?.name&&(
+            <p className="text-red-500 test-sm mt-1">{actionData.errors.name}</p>
+          )} 
         </div>
 
         {/* Email and mobile Row */}
@@ -83,6 +86,9 @@ export default function Contact() {
               className={textFieldStyle}
               required
             />
+             {actionData?.errors?.email&&(
+            <p className="text-red-500 test-sm mt-1">{actionData.errors.email}</p>
+          )} 
           </div>
 
           {/* Mobile Field */}
@@ -100,6 +106,9 @@ export default function Contact() {
               placeholder="Your Mobile Number"
               className={textFieldStyle}
             />
+             {actionData?.errors?.mobileNumber&&(
+            <p className="text-red-500 test-sm mt-1">{actionData.errors.mobileNumber}</p>
+          )} 
           </div>
         </div>
 
@@ -118,6 +127,9 @@ export default function Contact() {
             minLength={5}
             maxLength={500}
           ></textarea>
+           {actionData?.errors?.message&&(
+            <p className="text-red-500 test-sm mt-1">{actionData.errors.message}</p>
+          )} 
         </div>
 
         {/* Submit Button */}
@@ -148,8 +160,11 @@ export async function contactAction({request,params}) {
     await apiClient.post("/contacts",contactData); // Axios GET Request
     return {success:"true"};
   } catch (error) {
+    if(error.response?.status === 400){
+      return {success:false,errors:error.response?.data};
+    }
     throw new Response(
-      error.message || "Failed to submit your message. Please try again.",
+      error.response?.data?.errorMessage || error.message || "Failed to submit your message. Please try again.",
       { status: error.status || 500 }
     );
   }

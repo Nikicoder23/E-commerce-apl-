@@ -25,6 +25,8 @@ public class ProductServiceImlp implements IProductService {
     private Productdto transformtoDto(Product product){
         Productdto productdto = new Productdto();
         BeanUtils.copyProperties(product,productdto);
+        productdto.setId(product.getId());
+//        throw new RuntimeException("Oops something wrong");
         return productdto;
     }
 }

@@ -29,3 +29,10 @@ export default function ProductCard({ product }) {
     </div>
   );
 }
+// import React from 'react'
+
+// export default function ProductCard() {
+//   return (
+//     <div>ProductCard</div>
+//   )
+// }

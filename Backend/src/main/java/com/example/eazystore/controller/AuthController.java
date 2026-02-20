@@ -17,6 +17,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authentication.password.CompromisedPasswordChecker;
+import org.springframework.security.authentication.password.CompromisedPasswordDecision;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -28,7 +30,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -39,6 +44,7 @@ public class AuthController {
     private final CustomerRepository customerRepositoryr;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
+    private final CompromisedPasswordChecker compromisedPasswordChecker;
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDto> apiLogin(@RequestBody
@@ -48,8 +54,8 @@ public class AuthController {
                     UsernamePasswordAuthenticationToken(loginRequestDto.username(),
                     loginRequestDto.password()));
             var userDto = new UserDto();
-            var loggedInUser = (User) authentication.getPrincipal();
-            userDto.setName(loggedInUser.getUsername());
+            var loggedInUser = (Customer) authentication.getPrincipal();
+            BeanUtils.copyProperties(loggedInUser,userDto);
             String jwtToken = jwtUtil.generateJwtToken(authentication);
             return ResponseEntity.status(HttpStatus.OK)
                     .body(new LoginResponseDto(HttpStatus.OK.getReasonPhrase(),
@@ -67,7 +73,28 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> registerUser(@Valid @RequestBody RegisterRequestDto registerRequestDto) {
+    public ResponseEntity<?> registerUser(@Valid @RequestBody RegisterRequestDto registerRequestDto) {
+        CompromisedPasswordDecision decision = compromisedPasswordChecker.check(registerRequestDto.getPassword());
+        if(decision.isCompromised()) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(Map.of("password", "Choose a strong password"));
+        }
+        Optional<Customer> existingCustomer =  customerRepositoryr.findByEmailOrMobileNumber
+                (registerRequestDto.getEmail(),registerRequestDto.getMobileNumber());
+        if(existingCustomer.isPresent()) {
+            Map<String, String> errors = new HashMap<>();
+            Customer customer = existingCustomer.get();
+
+            if (customer.getEmail().equalsIgnoreCase(registerRequestDto.getEmail())) {
+                errors.put("email", "Email is already registered");
+            }
+            if (customer.getMobileNumber().equals(registerRequestDto.getMobileNumber())) {
+                errors.put("mobileNumber", "Mobile number is already registered");
+            }
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
+        }
         Customer customer=new Customer();
         BeanUtils.copyProperties(registerRequestDto,customer);
         customer.setPasswordHash(passwordEncoder.encode(registerRequestDto.getPassword()));

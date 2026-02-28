@@ -53,7 +53,7 @@ export default function ProductListings({ products }) {
         <Dropdown
           label="Sort by"
           options={sortList}
-          value={selectedSort}
+          selectedValue={selectedSort}
           handleSort={(value) => handleSortChange(value)}
         />
       </div>

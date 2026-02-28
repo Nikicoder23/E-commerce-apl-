@@ -18,7 +18,6 @@ export default function Header() {
     return localStorage.getItem("theme") === "dark" ? "dark" : "light";
   });
 
-  const isAdmin = true;
   const [isUserMenuOpen, setUserMenuOpen] = useState(false);
   const [isAdminMenuOpen, setAdminMenuOpen] = useState(false);
   const location = useLocation();
@@ -29,8 +28,8 @@ export default function Header() {
   const toggleUserMenu = () => setUserMenuOpen((prev) => !prev);
 
   const { totalQuantity } = useCart();
-  const { isAuthenticated,user, logout } = useAuth();
-
+  const { isAuthenticated, user, logout } = useAuth();
+  const isAdmin = user?.roles?.includes("ROLE_ADMIN");
   useEffect(() => {
     if (theme === "dark") {
       document.documentElement.classList.add("dark");
@@ -126,13 +125,11 @@ export default function Header() {
                     className="relative text-primary"
                   >
                     <span className={navLinkClass}>
-                      
                       {`Hello ${
                         user.name.length > 5
                           ? `${user.name.slice(0, 5)}...`
                           : user.name
                       }`}
-                   
                     </span>
                     <FontAwesomeIcon
                       icon={faAngleDown}
@@ -225,5 +222,3 @@ export default function Header() {
     </header>
   );
 }
-
-// export default Header;

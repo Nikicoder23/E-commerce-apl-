@@ -28,9 +28,17 @@ import Register,{registerAction} from './Components/Register.jsx'
 import CheckoutForm from './Components/CheckoutForm.jsx'
 import { profileLoader } from './Components/Profile.jsx'
 import { profileAction } from './Components/Profile.jsx'
+import ProductDetail from './Components/ProductDetails.jsx'
+import { loadStripe } from '@stripe/stripe-js'
+import OrderSuccess from './Components/OrderSuccess.jsx'
+import { Elements } from '@stripe/react-stripe-js'
 
-const routeDefinitions=createRoutesFromElements(
- <Route path="/" element={<App />} errorElement={<ErrorPage />}>
+const stripePromise = loadStripe(
+  "pk_test_51T4LqDAbn066fOL7P5McHft7p2F9gWY9yFnxuk1CcOOLgZCwkLURyffTumqUblSnq7iYmLw21PDxeiF2PqNL0FLc00MhYRleo0"
+);
+
+const routeDefinitions = createRoutesFromElements(
+  <Route path="/" element={<App />} errorElement={<ErrorPage />}>
     <Route index element={<Home />} loader={productsLoader} />
     <Route path="/home" element={<Home />} loader={productsLoader} />
     <Route path="/about" element={<About />} />
@@ -38,10 +46,11 @@ const routeDefinitions=createRoutesFromElements(
     <Route path="/login" element={<Login />} action={loginAction} />
     <Route path="/register" element={<Register />} action={registerAction} />
     <Route path="/cart" element={<Cart />} />
-    <Route path="/products/:productId" element={<ProductDetails />} />
+    <Route path="/products/:productId" element={<ProductDetail />} />
     <Route element={<ProtectedRoute />}>
       <Route path="/checkout" element={<CheckoutForm />} />
-        <Route
+       <Route path="/order-success" element={<OrderSuccess />} />
+      <Route
         path="/profile"
         element={<Profile />}
         loader={profileLoader}
@@ -61,6 +70,7 @@ const appRouter = createBrowserRouter(routeDefinitions);
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
+        <Elements stripe={stripePromise}>
     <AuthProvider>
       <CartProvider>
         <RouterProvider router={appRouter} />
@@ -76,5 +86,6 @@ createRoot(document.getElementById("root")).render(
       theme={localStorage.getItem("theme") === "dark" ? "dark" : "light"}
       transition={Bounce}
     />
+    </Elements>
   </StrictMode>
-)
+);

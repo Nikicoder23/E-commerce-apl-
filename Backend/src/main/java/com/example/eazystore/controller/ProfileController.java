@@ -28,4 +28,5 @@ public class ProfileController {
         ProfileResponseDto responseDto = iProfileService.updateProfile(profileRequestDto);
         return ResponseEntity.ok(responseDto);
     }
+
 }

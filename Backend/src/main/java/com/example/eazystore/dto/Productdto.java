@@ -10,7 +10,7 @@ import java.time.Instant;
 @Setter
 @Getter
 public class Productdto {
-    private Long id;
+    private Long productId;
     private String name;
     private String description;
     private BigDecimal price;

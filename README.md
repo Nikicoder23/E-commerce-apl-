@@ -58,7 +58,7 @@ Tech Stack
 
 
  Project Structure
- 
+```
 E-commerce-apl-/
 ├── Backend/
 │   └── src/main/java/com/ecommerce/
@@ -104,7 +104,7 @@ E-commerce-apl-/
         ├── api/
         │   └── api-client.js               # Centralized API configuration
         └── main.jsx
-
+```
  API Endpoints
 
  Auth

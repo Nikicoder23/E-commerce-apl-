@@ -46,7 +46,7 @@ Admin Panel
 
 Tech Stack
 | Layer | Technology |
-
+|-------|-----------|
 | Backend | Java 17, Spring Boot 3.x, Spring Security, Spring Data JPA |
 | Frontend | React (JSX, Hooks, Context API), HTML5, CSS3, JavaScript |
 | Database | MySQL, Hibernate ORM |
@@ -54,6 +54,7 @@ Tech Stack
 | Payment | Stripe Payment Gateway (PaymentIntent API) |
 | Cloud | AWS EC2 (hosting), AWS RDS (MySQL), AWS S3 (static assets) |
 | Tools | Maven, Postman, Git, IntelliJ IDEA |
+
 
 
 

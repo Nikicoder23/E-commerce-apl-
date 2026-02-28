@@ -2,13 +2,6 @@
 
 A production-ready, full-featured e-commerce platform built with **Java Spring Boot** (backend) and **React** (frontend). Features secure JWT authentication, role-based access, Stripe payment integration, order management, and user profile handling.
 
----
-
-## 🚀 Live Demo
-> _Add your deployed link here (e.g., AWS EC2 URL)_
-
----
-
 ## 📌 Features
 
 ### 👤 Authentication & User Management

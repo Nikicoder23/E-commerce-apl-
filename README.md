@@ -1,50 +1,61 @@
-E-Commerce Full Stack Application
+# 🛒 E-Commerce Full Stack Application
 
-A production-ready, full-featured e-commerce platform built with Java Spring Boot(backend) and React(frontend). Features secure JWT authentication, role-based access, Stripe payment integration, order management, and user profile handling.
+A production-ready, full-featured e-commerce platform built with **Java Spring Boot** (backend) and **React** (frontend). Features secure JWT authentication, role-based access, Stripe payment integration, order management, and user profile handling.
 
-Features
- Authentication & User Management
-- User registration and login via AuthController with JWT token generation
-- Token Validator Filter — validates JWT on every request before reaching controllers
-- User Profile management — view and update profile (ProfileRequest / ProfileResponse DTOs)
-- Structured user data handling via UserDTO
+---
 
-Address Management
-- Users can save and manage delivery addresses via AddressDTO
+## 🚀 Live Demo
+> _Add your deployed link here (e.g., AWS EC2 URL)_
 
-Shopping
+---
+
+## 📌 Features
+
+### 👤 Authentication & User Management
+- User registration and login via **AuthController** with JWT token generation
+- **Token Validator Filter** — validates JWT on every request before reaching controllers
+- User **Profile management** — view and update profile (ProfileRequest / ProfileResponse DTOs)
+- Structured user data handling via **UserDTO**
+
+### 🏠 Address Management
+- Users can save and manage delivery addresses via **AddressDTO**
+
+### 🛍️ Shopping
 - Browse product catalog with search and filter
-- Add to cart, update quantities, remove items (Cart.jsx)
-- Persistent cart state managed via Auth Context (auth-context.jsx)
+- Add to cart, update quantities, remove items (**Cart.jsx**)
+- Persistent cart state managed via **Auth Context (auth-context.jsx)**
 
-Payment (Stripe)
--  PaymentController  exposes secure payment endpoints
--  PaymentIntentRequestDTO  handles payment request data
--  IPaymentService / PaymentServiceImpl  — service layer for Stripe operations
--  StripeConfig  — centralized Stripe API key configuration via `application.properties`
-- On successful payment, users are redirected to  OrderSuccess.jsx 
+### 💳 Payment (Stripe)
+- **PaymentController** exposes secure payment endpoints
+- **PaymentIntentRequestDTO** handles payment request data
+- **IPaymentService / PaymentServiceImpl** — service layer for Stripe operations
+- **StripeConfig** — centralized Stripe API key configuration via `application.properties`
+- On successful payment, users are redirected to **OrderSuccess.jsx**
 
-Order Management
--  OrderController  handles order placement and retrieval
--  Order.java / OrderItem.java  — JPA entities mapping orders and their line items
-- Full service layer:  IOrderService / OrderServiceImpl  with supporting  OrderDTO 
--  schema.sql  — `order_items` table DDL for database initialization
+### 📦 Order Management
+- **OrderController** handles order placement and retrieval
+- **Order.java / OrderItem.java** — JPA entities mapping orders and their line items
+- Full service layer: **IOrderService / OrderServiceImpl** with supporting **OrderDTO**
+- **schema.sql** — `order_items` table DDL for database initialization
 
-  API Integration
--  api-client  — centralized Axios/fetch configuration for all frontend-backend communication
+### 🔗 API Integration
+- **api-client** — centralized Axios/fetch configuration for all frontend-backend communication
 
-Security
+### 🔐 Security
 - JWT-based stateless authentication
--  TokenValidatorFilter  intercepts and validates every request
+- **TokenValidatorFilter** intercepts and validates every request
 - Role-based access control (USER / ADMIN) via Spring Security
--  ApplicationConstants  — centralized constants for JWT secrets, roles, and config keys
-- Global exception handling via custom  Exception classes 
+- **ApplicationConstants** — centralized constants for JWT secrets, roles, and config keys
+- Global exception handling via custom **Exception classes**
 
-Admin Panel
+### 🛠️ Admin Panel
 - Add, update, delete products
 - View and manage all orders and users
 
-Tech Stack
+---
+
+## 🧱 Tech Stack
+
 | Layer | Technology |
 |-------|-----------|
 | Backend | Java 17, Spring Boot 3.x, Spring Security, Spring Data JPA |
@@ -55,10 +66,10 @@ Tech Stack
 | Cloud | AWS EC2 (hosting), AWS RDS (MySQL), AWS S3 (static assets) |
 | Tools | Maven, Postman, Git, IntelliJ IDEA |
 
+---
 
+## 📁 Project Structure
 
-
- Project Structure
 ```
 E-commerce-apl-/
 ├── Backend/
@@ -106,34 +117,38 @@ E-commerce-apl-/
         │   └── api-client.js               # Centralized API configuration
         └── main.jsx
 ```
- API Endpoints
 
- Auth
+---
+
+## 🔗 API Endpoints
+
+### Auth
 | Method | Endpoint | Description |
 |--------|----------|-------------|
 | POST | `/api/auth/register` | Register new user |
 | POST | `/api/auth/login` | Login and receive JWT token |
 
- Profile
+### Profile
 | Method | Endpoint | Description |
 |--------|----------|-------------|
 | GET | `/api/profile` | Get logged-in user profile |
 | PUT | `/api/profile` | Update profile and address |
 
-Payment
+### Payment
 | Method | Endpoint | Description |
 |--------|----------|-------------|
 | POST | `/api/payment/create-intent` | Create Stripe PaymentIntent |
 
-Orders
+### Orders
 | Method | Endpoint | Description |
 |--------|----------|-------------|
 | POST | `/api/orders` | Place a new order |
 | GET | `/api/orders/my` | Get current user's orders |
 | GET | `/api/admin/orders` | Get all orders (Admin only) |
 
+---
 
- Database Schema (Key Tables)
+## 🗄️ Database Schema (Key Tables)
 
 - `users` — user credentials, roles, profile info
 - `addresses` — delivery addresses linked to users
@@ -142,18 +157,20 @@ Orders
 - `order_items` — individual line items per order (defined in `schema.sql`)
 - `cart` — active cart items per user
 
-Getting Started
+---
 
-Prerequisites
+## ⚙️ Getting Started
+
+### Prerequisites
 - Java 17+
 - Node.js 18+
 - MySQL 8+
 - Maven
 - Stripe account (for API keys)
 
-Backend Setup
-bash
-Clone the repository
+### Backend Setup
+```bash
+# Clone the repository
 git clone https://github.com/Nikicoder23/E-commerce-apl-.git
 cd E-commerce-apl-/Backend
 
@@ -165,12 +182,12 @@ spring.datasource.password=YOUR_PASSWORD
 stripe.secret.key=YOUR_STRIPE_SECRET_KEY
 jwt.secret=YOUR_JWT_SECRET
 
-Run the application
+# Run the application
 mvn spring-boot:run
+```
 
-
-Frontend Setup
-bash
+### Frontend Setup
+```bash
 cd ../Frontend
 
 # Install dependencies
@@ -178,12 +195,15 @@ npm install
 
 # Start the development server
 npm start
+```
 
-App runs at `http://localhost:5183`
+App runs at `http://localhost:3000`
 
-Key Environment Variables
+---
 
-properties
+## 🔒 Key Environment Variables
+
+```properties
 # Database
 spring.datasource.url=jdbc:mysql://localhost:3306/ecommerce_db
 spring.datasource.username=root
@@ -195,11 +215,13 @@ jwt.expiration=86400000
 
 # Stripe
 stripe.secret.key=sk_test_xxxx
+```
 
+---
 
-Author
+## 👩‍💻 Author
 
-Nikitha R   
+**Nikitha R**  
 Associate Software Engineer | Java Backend & Full Stack Developer  
 📧 nikithar2319@gmail.com  
 🔗 [LinkedIn](https://linkedin.com/in/nikitha) | [GitHub](https://github.com/Nikicoder23)

@@ -156,7 +156,6 @@ E-commerce-apl-/
 
 ### Prerequisites
 - Java 17+
-- Node.js 18+
 - MySQL 8+
 - Maven
 - Stripe account (for API keys)
